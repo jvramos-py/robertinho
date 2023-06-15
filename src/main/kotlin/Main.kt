@@ -4,9 +4,14 @@ import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.PrivilegedIntent
 import io.github.cdimascio.dotenv.dotenv
+import io.ktor.utils.io.core.*
+import java.io.BufferedWriter
+import java.io.File
+
 
 val dotenv = dotenv()
 suspend fun main() {
+    val file = File("sugestoes.txt")
     val kord = Kord(dotenv["TOKEN"])
     val suggestions: MutableList<String> = mutableListOf()
     kord.on<MessageCreateEvent> {
@@ -24,7 +29,7 @@ suspend fun main() {
 
 
             "!getSuggestions" -> {
-                if (message.author!!.username == "UnosTristes") message.channel.createMessage("Aqui está: \n" + suggestions.let { return@let "$it \n" })
+                if (message.author!!.username == "josev.moraes") message.channel.createMessage("Aqui está: \n" + suggestions.let { return@let "$it \n" })
             }
 
             else -> return@on
@@ -37,6 +42,7 @@ suspend fun main() {
         if (message.content.startsWith("!addSuggestion")) {
             message.channel.createMessage("Obrigado pela sugestão! :)")
             suggestions.add(index = suggestions.lastIndex + 1, element = message.content.removePrefix("!addSuggestion"))
+            file.appendText(message.content.removePrefix("!addSuggestion") + "\n")
         }
     }
 

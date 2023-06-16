@@ -32,7 +32,7 @@ suspend fun main() {
                 if (message.author!!.username == "josev.moraes") message.channel.createMessage("Aqui está: \n" + suggestions.let { return@let "$it \n" })
             }
 
-            else -> return@on
+            else -> message.channel.createMessage("só o adm pode >:(")
         }
 
     }
